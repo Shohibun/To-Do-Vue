@@ -1,7 +1,15 @@
 <script>
 export default {
   props: {
-    label: {
+    title: {
+      type: String,
+      required: true,
+    },
+    description: {
+      type: String,
+      required: true,
+    },
+    place: {
       type: String,
       required: true,
     },
@@ -12,46 +20,98 @@ export default {
   },
   data() {
     return {
-      newLabel: this.label,
+      newTitle: this.title,
+      newDescription: this.description,
+      newPlace: this.place,
     };
   },
   methods: {
     onsubmit() {
-      if (this.newLabel && this.newLabel !== this.label) {
-        this.$emit("item-edited", this.newLabel);
+      if (this.newTitle && this.newTitle !== this.title) {
+        this.$emit("item-edited-title", this.newTitle);
       }
-      console.log("Label baru:", this.newLabel);
+      if (this.newDescription && this.newDescription !== this.description) {
+        this.$emit("item-edited-description", this.newDescription);
+      }
+      if (this.newPlace && this.newPlace !== this.place) {
+        this.$emit("item-edited-place", this.newPlace);
+      }
     },
     onCancel() {
       this.$emit("edit-cancelled");
     },
   },
   mounted() {
-    const labelInputRef = this.$refs.labelInput;
-    labelInputRef.focus();
+    const titleInputRef = this.$refs.titleInput;
+    const descriptionInputRef = this.$refs.descriptionInput;
+    const placeInputRef = this.$refs.placeInput;
+
+    titleInputRef.focus();
+    descriptionInputRef.focus();
+    placeInputRef.focus();
   },
 };
 </script>
 
 <template>
   <form @submit.prevent="onsubmit">
-    <div class="grid grid-rows-2 mb-3">
-      <div class="row-span-1 mx-auto mb-1">
+    <div class="grid grid-cols-2 gap-2 mb-3">
+      <!-- Title -->
+      <div class="col-span-1">
         <label class="mb-2 text-sm font-medium text-black">
-          Edit Name for &quot;{{ label }}&quot;</label
+          Edit for title:</label
         >
       </div>
 
-      <div class="row-span-1 mx-auto">
+      <div class="col-span-">
         <input
           type="text"
-          ref="labelInput"
+          ref="titleInput"
           autocomplete="off"
           :id="id"
-          v-model.lazy.trim="newLabel"
+          v-model.lazy.trim="newTitle"
           class="px-3 border border-black rounded"
         />
       </div>
+      <!-- Title -->
+
+      <!-- Description -->
+      <div class="col-span-1">
+        <label class="mb-2 text-sm font-medium text-black">
+          Edit for description:</label
+        >
+      </div>
+
+      <div class="col-span-">
+        <input
+          type="text"
+          ref="discriptionInput"
+          autocomplete="off"
+          :id="id"
+          v-model.lazy.trim="newDescription"
+          class="px-3 border border-black rounded"
+        />
+      </div>
+      <!-- Description -->
+
+      <!-- Place -->
+      <div class="col-span-1">
+        <label class="mb-2 text-sm font-medium text-black">
+          Edit for place:</label
+        >
+      </div>
+
+      <div class="col-span-">
+        <input
+          type="text"
+          ref="placeInput"
+          autocomplete="off"
+          :id="id"
+          v-model.lazy.trim="newPlace"
+          class="px-3 border border-black rounded"
+        />
+      </div>
+      <!-- Place -->
     </div>
 
     <div class="grid grid-cols-2 gap-4">
@@ -62,7 +122,6 @@ export default {
           class="w-full focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
         >
           Cancel
-          <!-- <span class="visually-hidden">Editing {{ label }}</span> -->
         </button>
       </div>
 
@@ -72,7 +131,6 @@ export default {
           class="w-full focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
         >
           Save
-          <!-- <span class="visually-hidden">Edit for {{ label }}</span> -->
         </button>
       </div>
     </div>

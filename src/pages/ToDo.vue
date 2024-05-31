@@ -13,23 +13,35 @@ export default {
       ToDoItems: [
         {
           id: "todo-" + nanoid(),
-          label: "Learn Vue",
+          title: "Learn Vue",
+          description: "Vue is a JavaScript framework",
+          place: "Jakarta",
           done: true,
+          timeStamp: Date.now(),
         },
         {
           id: "todo-" + nanoid(),
-          label: "Learn Create To Do List",
+          title: "Learn Create To Do List",
+          description: "Try for give up :) ",
+          place: "Jember",
           done: false,
+          timeStamp: Date.now(),
         },
         {
           id: "todo-" + nanoid(),
-          label: "Have Fun",
+          title: "Have Fun",
+          description: "Have fun if this is done",
+          place: "Bandung",
           done: true,
+          timeStamp: Date.now(),
         },
         {
           id: "todo-" + nanoid(),
-          label: "I Hope This Works",
+          title: "I Hope This Works",
+          description: "I hope it's done :(",
+          place: "Bogor",
           done: false,
+          timeStamp: Date.now(),
         },
       ],
       filterOption: "all",
@@ -37,10 +49,12 @@ export default {
     };
   },
   methods: {
-    addToDo(toDoLabel) {
+    addToDo({ title, description, place }) {
       this.ToDoItems.push({
         id: "todo-" + nanoid(),
-        label: toDoLabel,
+        title: title,
+        description: description,
+        place: place,
         done: false,
         timeStamp: Date.now(),
       });
@@ -59,13 +73,21 @@ export default {
       toDoUpdate.done = !toDoUpdate.done;
       this.filterTasks();
     },
-    editToDo(toDoId, newLabel) {
+    editTodoTitle(toDoId, newTitle) {
       const toDoEdit = this.ToDoItems.find((item) => item.id === toDoId);
-      toDoEdit.label = newLabel;
+      toDoEdit.title = newTitle;
+    },
+    editTodoDescription(toDoId, newDescription) {
+      const toDoEdit = this.ToDoItems.find((item) => item.id === toDoId);
+      toDoEdit.description = newDescription;
+    },
+    editToDoPlace(toDoId, newPlace) {
+      const toDoEdit = this.ToDoItems.find((item) => item.id === toDoId);
+      toDoEdit.place = newPlace;
     },
     sortTasks() {
       if (this.sortOption === "alphabet") {
-        this.ToDoItems.sort((a, b) => a.label.localeCompare(b.label)); 
+        this.ToDoItems.sort((a, b) => a.title.localeCompare(b.title));
       } else if (this.sortOption === "addTime") {
         this.ToDoItems.sort((a, b) => a.timeStamp - b.timeStamp);
       }
@@ -93,10 +115,10 @@ export default {
     sortedAndFilteredToDoItems() {
       let filtered = this.filteredToDoItems;
       if (this.sortOption === "alphabet") {
-        console.log("masuk sort abjad")
-        return filtered.sort((a, b) => a.label.localeCompare(b.label));
+        console.log("masuk sort abjad");
+        return filtered.sort((a, b) => a.title.localeCompare(b.title));
       } else if (this.sortOption === "addTime") {
-        console.log("masuk sort time")
+        console.log("masuk sort time");
         return filtered.sort((a, b) => a.timeStamp - b.timeStamp);
       } else {
         return filtered;
@@ -107,68 +129,87 @@ export default {
 </script>
 
 <template>
-  <div class="w-full flex justify-center">
-    <div class="w-4/12 px-8 rounded border shadow-xl">
-      <h1 class="text-3xl text-center font-bold mb-4 mt-2">To-Do List</h1>
-      <p class="text-base">What needs to be done ?</p>
+  <div class="w-full flex justify-center py-12">
+    <div class="w-9/12 px-8 rounded border shadow-xl bg-white">
+      <!-- Jadi fungsi md: disini untuk responsive yang berlaku jika ukuran layar lebih dari 768px -->
+      <div class="md:grid md:grid-cols-3 gap-4">
+        <div class="col-span-1 md:border-r-4">
+          <div class="w-full md:w-10/12 mx-auto mt-12">
+            <h1 class="text-3xl text-center font-bold">MustDo</h1>
+            <p class="text-base text-center">What needs to be done ?</p>
 
-      <to-do-form @todo-added="addToDo"></to-do-form>
+            <to-do-form @todo-added="addToDo"></to-do-form>
+          </div>
+        </div>
 
-      <p
-        class="text-base text-center font-bold"
-        id="list-summary"
-        ref="listSummary"
-        tabindex="-1"
-      >
-        {{ listSummary }}
-      </p>
-
-      <!-- Filter -->
-      <form class="max-w-sm mx-auto mb-4">
-        <label for="filter" class="block mb-2 text-base font-medium text-black"
-          >Filter By:</label
-        >
-        <select
-          v-model="filterOption"
-          @change="filterTasks"
-          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-        >
-          <option value="all" selected>All</option>
-          <option value="pending">Pending</option>
-          <option value="completed">Complete</option>
-        </select>
-      </form>
-      <!-- Filter -->
-
-      <!-- Sort -->
-      <div class="sort-container mb-12">
-        <label for="sort" class="block mb-2 text-base font-medium text-black"
-          >Sort by:</label
-        >
-        <select
-          v-model="sortOption"
-          @change="sortTasks"
-          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-        >
-        <option value="addTime">Time Added</option>
-          <option value="alphabet">Alphabetical</option>
-        </select>
-      </div>
-      <!-- Sort -->
-
-      <ul aria-labelledby="list-summary">
-        <li v-for="item in sortedAndFilteredToDoItems" :key="item.id">
-          <to-do-item
-            :label="item.label"
-            :done="item.done"
-            :id="item.id"
-            @checkbox-changed="updateDoneStatus(item.id)"
-            @item-deleted="deleteToDo(item.id)"
-            @item-edited="editToDo(item.id, $event)"
+        <div class="col-span-2">
+          <p
+            class="text-base text-center font-bold mt-4 mb-2"
+            id="list-summary"
+            ref="listSummary"
+            tabindex="-1"
           >
-          </to-do-item>
-        </li>
-      </ul>
+            {{ listSummary }}
+          </p>
+
+          <div class="md:grid md:grid-cols-2 gap-4 mb-9">
+            <div class="col-span-1 mb-3">
+              <form class="w-8/12 mx-auto">
+                <label
+                  for="filter"
+                  class="block mb-2 text-base font-medium text-black"
+                  >Filter By:</label
+                >
+                <select
+                  v-model="filterOption"
+                  @change="filterTasks"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                >
+                  <option value="all" selected>All</option>
+                  <option value="pending">Pending</option>
+                  <option value="completed">Complete</option>
+                </select>
+              </form>
+            </div>
+
+            <div class="col-span-1">
+              <div class="w-8/12 mx-auto">
+                <label
+                  for="sort"
+                  class="block mb-2 text-base font-medium text-black"
+                  >Sort by:</label
+                >
+                <select
+                  v-model="sortOption"
+                  @change="sortTasks"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                >
+                  <option value="addTime">Time Added</option>
+                  <option value="alphabet">Alphabetical</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <ul aria-labelledby="list-summary">
+            <li v-for="item in sortedAndFilteredToDoItems" :key="item.id">
+              <to-do-item
+                :place="item.place"
+                :description="item.description"
+                :title="item.title"
+                :done="item.done"
+                :id="item.id"
+                @checkbox-changed="updateDoneStatus(item.id)"
+                @item-deleted="deleteToDo(item.id)"
+                @item-edited-title="editTodoTitle(item.id, $event)"
+                @item-edited-description="editTodoDescription(item.id, $event)"
+                @item-edited-place="editToDoPlace(item.id, $event)"
+              >
+              </to-do-item>
+            </li>
+          </ul>
+        </div>
+      </div>
     </div>
   </div>
 </template>
