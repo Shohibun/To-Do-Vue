@@ -20,6 +20,8 @@ export default {
           title: "Learn Vue",
           description: "Vue is a JavaScript framework",
           place: "Jakarta",
+          date: "2024-07-16",
+          time: "12:34",
           done: true,
           timeStamp: Date.now(),
         },
@@ -28,6 +30,8 @@ export default {
           title: "Learn Create To Do List",
           description: "Try for give up :) ",
           place: "Jember",
+          date: "2024-07-12",
+          time: "09:14",
           done: false,
           timeStamp: Date.now(),
         },
@@ -36,6 +40,8 @@ export default {
           title: "Have Fun",
           description: "Have fun if this is done",
           place: "Bandung",
+          date: "2024-07-18",
+          time: "14:34",
           done: true,
           timeStamp: Date.now(),
         },
@@ -44,6 +50,8 @@ export default {
           title: "I Hope This Works",
           description: "I hope it's done :(",
           place: "Bogor",
+          date: "2024-07-22",
+          time: "21:34",
           done: false,
           timeStamp: Date.now(),
         },
@@ -53,12 +61,14 @@ export default {
     };
   },
   methods: {
-    addToDo({ title, description, place }) {
+    addToDo({ title, description, place, date, time }) {
       this.ToDoItems.push({
         id: "todo-" + nanoid(),
         title: title,
         description: description,
         place: place,
+        date: date,
+        time: time,
         done: false,
         timeStamp: Date.now(),
       });
@@ -89,11 +99,21 @@ export default {
       const toDoEdit = this.ToDoItems.find((item) => item.id === toDoId);
       toDoEdit.place = newPlace;
     },
+    editToDoDate(toDoId, newDate) {
+      const toDoEdit = this.ToDoItems.find((item) => item.id === toDoId);
+      toDoEdit.date = newDate;
+    },
+    editToDoTime(toDoId, newTIme) {
+      const toDoEdit = this.ToDoItems.find((item) => item.id === toDoId);
+      toDoEdit.time = newTIme;
+    },
     sortTasks() {
       if (this.sortOption === "alphabet") {
         this.ToDoItems.sort((a, b) => a.title.localeCompare(b.title));
       } else if (this.sortOption === "addTime") {
         this.ToDoItems.sort((a, b) => a.timeStamp - b.timeStamp);
+      } else if (this.sortOption == "dueDate") {
+        this.ToDoItems.sort((a, b) => new Date(a.date) - new Date(b.date));
       }
     },
     filterTasks() {
@@ -127,6 +147,8 @@ export default {
       } else if (this.sortOption === "addTime") {
         console.log("masuk sort time");
         return filtered.sort((a, b) => a.timeStamp - b.timeStamp);
+      } else if (this.sortOption === "dueDate") {
+        return filtered.sort((a, b) => new Date(a.date) - new Date(b.date));
       } else {
         return filtered;
       }
@@ -213,6 +235,7 @@ export default {
                 >
                   <option value="addTime">Time Added</option>
                   <option value="alphabet">Alphabetical</option>
+                  <option value="dueDate">Due Date</option>
                 </select>
               </div>
             </div>
@@ -221,6 +244,8 @@ export default {
           <ul aria-labelledby="list-summary">
             <li v-for="item in sortedAndFilteredToDoItems" :key="item.id">
               <to-do-item
+                :time="item.time"
+                :date="item.date"
                 :place="item.place"
                 :description="item.description"
                 :title="item.title"
@@ -231,6 +256,8 @@ export default {
                 @item-edited-title="editTodoTitle(item.id, $event)"
                 @item-edited-description="editTodoDescription(item.id, $event)"
                 @item-edited-place="editToDoPlace(item.id, $event)"
+                @item-edited-date="editToDoDate(item.id, $event)"
+                @item-edited-time="editToDoTime(item.id, $event)"
               >
               </to-do-item>
             </li>

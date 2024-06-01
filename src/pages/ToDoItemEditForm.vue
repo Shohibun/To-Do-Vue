@@ -13,6 +13,14 @@ export default {
       type: String,
       required: true,
     },
+    date: {
+      type: String,
+      required: true,
+    },
+    time: {
+      type: String,
+      required: true,
+    },
     id: {
       type: String,
       required: true,
@@ -23,6 +31,8 @@ export default {
       newTitle: this.title,
       newDescription: this.description,
       newPlace: this.place,
+      newDate: this.date,
+      newTime: this.time,
     };
   },
   methods: {
@@ -36,6 +46,12 @@ export default {
       if (this.newPlace && this.newPlace !== this.place) {
         this.$emit("item-edited-place", this.newPlace);
       }
+      if (this.newDate && this.newDate !== this.date) {
+        this.$emit("item-edited-date", this.newDate);
+      }
+      if (this.newTime && this.newTime !== this.time) {
+        this.$emit("item-edited-time", this.newTime);
+      }
     },
     onCancel() {
       this.$emit("edit-cancelled");
@@ -45,6 +61,8 @@ export default {
     const titleInputRef = this.$refs.titleInput;
     const descriptionInputRef = this.$refs.descriptionInput;
     const placeInputRef = this.$refs.placeInput;
+    const dateInputRef = this.$refs.dateInput;
+    const timeInputRef = this.$refs.timeInput;
 
     if (titleInputRef) {
       titleInputRef.focus()
@@ -52,6 +70,10 @@ export default {
       descriptionInputRef.focus()
     } else if (placeInputRef) {
       placeInputRef.focus()
+    } else if (dateInputRef) {
+      dateInputRef.focus()
+    } else if (timeInputRef) {
+      timeInputRef.focus()
     }
   },
 };
@@ -67,7 +89,7 @@ export default {
         >
       </div>
 
-      <div class="col-span-">
+      <div class="col-span-1">
         <input
           type="text"
           ref="titleInput"
@@ -86,7 +108,7 @@ export default {
         >
       </div>
 
-      <div class="col-span-">
+      <div class="col-span-1">
         <input
           type="text"
           ref="discriptionInput"
@@ -105,7 +127,7 @@ export default {
         >
       </div>
 
-      <div class="col-span-">
+      <div class="col-span-1">
         <input
           type="text"
           ref="placeInput"
@@ -116,6 +138,44 @@ export default {
         />
       </div>
       <!-- Place -->
+
+      <!-- Date -->
+      <div class="col-span-1">
+        <label class="mb-2 text-sm font-medium dark:text-gray-950 text-slate-50">
+          Edit for date:</label
+        >
+      </div>
+
+      <div class="col-span-1">
+        <input
+          type="date"
+          ref="dateInput"
+          autocomplete="off"
+          :id="id"
+          v-model.lazy.trim="newDate"
+          class="px-3 border border-black rounded"
+        />
+      </div>
+      <!-- Date -->
+
+      <!-- Time -->
+      <div class="col-span-1">
+        <label class="mb-2 text-sm font-medium dark:text-gray-950 text-slate-50">
+          Edit for time:</label
+        >
+      </div>
+
+      <div class="col-span-1">
+        <input
+          type="time"
+          ref="timeInput"
+          autocomplete="off"
+          :id="id"
+          v-model.lazy.trim="newTime"
+          class="px-3 border border-black rounded"
+        />
+      </div>
+      <!-- Time -->
     </div>
 
     <div class="grid grid-cols-2 gap-4">

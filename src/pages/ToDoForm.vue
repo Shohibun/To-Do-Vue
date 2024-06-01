@@ -2,7 +2,7 @@
 export default {
   methods: {
     onSubmit() {
-      if (this.title === "" || this.description === "" || this.place === "") {
+      if (this.title === "" || this.description === "" || this.place === "" || this.date === "" || this.time === "") {
         return;
       }
 
@@ -10,11 +10,15 @@ export default {
         title: this.title,
         description: this.description,
         place: this.place,
+        date: this.date,
+        time: this.time,
       });
 
       this.title = "";
       this.description = "";
       this.place = "";
+      this.date = "";
+      this.time = "";
     },
   },
   data() {
@@ -22,6 +26,8 @@ export default {
       title: "",
       description: "",
       place: "",
+      date: "",
+      time: "",
     };
   },
 };
@@ -72,6 +78,38 @@ export default {
         name="new-todo"
         autocomplete="off"
         v-model.lazy.trim="place"
+        class="border-black border w-full px-2 mb-2 rounded"
+        required
+      />
+    </div>
+
+    <div class="mb-3">
+      <label
+        for="date"
+        class="block mb-2 text-sm font-medium dark:text-gray-950 text-slate-50"
+        >Date</label
+      >
+      <input
+        type="date"
+        name="new-todo"
+        autocomplete="off"
+        v-model.lazy.trim="date"
+        class="border-black border w-full px-2 mb-2 rounded"
+        required
+      />
+    </div>
+
+    <div class="mb-3">
+      <label
+        for="time"
+        class="block mb-2 text-sm font-medium dark:text-gray-950 text-slate-50"
+        >Time</label
+      >
+      <input
+        type="time"
+        name="new-todo"
+        autocomplete="off"
+        v-model.lazy.trim="time"
         class="border-black border w-full px-2 mb-2 rounded"
         required
       />

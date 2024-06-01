@@ -17,6 +17,14 @@ export default {
       required: true,
       type: String,
     },
+    date: {
+      required: true,
+      type: String,
+    },
+    time: {
+      required: true,
+      type: String,
+    },
     done: {
       default: false,
       type: Boolean,
@@ -56,6 +64,16 @@ export default {
     },
     itemEditedPlace(newPlace) {
       this.$emit("item-edited-place", newPlace);
+      this.isEditing = false;
+      this.focusOnEditButton();
+    },
+    itemEditedDate(newDate) {
+      this.$emit("item-edited-date", newDate);
+      this.isEditing = false;
+      this.focusOnEditButton(); 
+    },
+    itemEditedTime(newTime) {
+      this.$emit("item-edited-time", newTime);
       this.isEditing = false;
       this.focusOnEditButton();
     },
@@ -110,6 +128,18 @@ export default {
               place
             }}</label>
           </div>
+
+          <div class="mb-1">
+            <label :for="id" class="ms-2 text-sm font-medium dark:text-gray-950 text-slate-50">{{
+              date
+            }}</label>
+          </div>
+
+          <div class="mb-1">
+            <label :for="id" class="ms-2 text-sm font-medium dark:text-gray-950 text-slate-50">{{
+              time
+            }}</label>
+          </div>
         </div>
       </div>
 
@@ -144,9 +174,13 @@ export default {
       :title="title"
       :description="description"
       :place="place"
+      :date="date"
+      :time="time"
       @item-edited-title="itemEditedTitle"
       @item-edited-description="itemEditedDescription"
       @item-edited-place="itemEditedPlace"
+      @item-edited-date="itemEditedDate"
+      @item-edited-time="itemEditedTime"
       @edit-cancelled="editCancelled"
     ></to-do-item-edit-form>
   </div>
