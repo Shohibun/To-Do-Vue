@@ -46,9 +46,13 @@ export default {
     const descriptionInputRef = this.$refs.descriptionInput;
     const placeInputRef = this.$refs.placeInput;
 
-    titleInputRef.focus();
-    descriptionInputRef.focus();
-    placeInputRef.focus();
+    if (titleInputRef) {
+      titleInputRef.focus()
+    } else if (descriptionInputRef) {
+      descriptionInputRef.focus()
+    } else if (placeInputRef) {
+      placeInputRef.focus()
+    }
   },
 };
 </script>
@@ -58,7 +62,7 @@ export default {
     <div class="grid grid-cols-2 gap-2 mb-3">
       <!-- Title -->
       <div class="col-span-1">
-        <label class="mb-2 text-sm font-medium text-black">
+        <label class="mb-2 text-sm font-medium dark:text-gray-950 text-slate-50">
           Edit for title:</label
         >
       </div>
@@ -77,7 +81,7 @@ export default {
 
       <!-- Description -->
       <div class="col-span-1">
-        <label class="mb-2 text-sm font-medium text-black">
+        <label class="mb-2 text-sm font-medium dark:text-gray-950 text-slate-50">
           Edit for description:</label
         >
       </div>
@@ -96,7 +100,7 @@ export default {
 
       <!-- Place -->
       <div class="col-span-1">
-        <label class="mb-2 text-sm font-medium text-black">
+        <label class="mb-2 text-sm font-medium dark:text-gray-950 text-slate-50">
           Edit for place:</label
         >
       </div>
@@ -128,7 +132,7 @@ export default {
       <div class="col-span-1">
         <button
           type="submit"
-          class="w-full focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
+          class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
         >
           Save
         </button>

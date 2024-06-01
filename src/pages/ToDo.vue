@@ -2,6 +2,10 @@
 import ToDoItem from "./ToDoItem.vue";
 import ToDoForm from "./ToDoForm.vue";
 import { nanoid } from "nanoid";
+import { useDark, useToggle } from "@vueuse/core";
+
+const isDark = useDark();
+const toggleDark = useToggle(isDark);
 
 export default {
   components: {
@@ -95,6 +99,9 @@ export default {
     filterTasks() {
       // Hanya buat pemicu reaktivitasnya saja
     },
+    toggleDark() {
+      toggleDark();
+    },
   },
   computed: {
     listSummary() {
@@ -130,13 +137,33 @@ export default {
 
 <template>
   <div class="w-full flex justify-center py-12">
-    <div class="w-9/12 px-8 rounded border shadow-xl bg-white">
+    <div
+      class="w-9/12 px-8 rounded border shadow-xl dark:bg-slate-50 bg-blue-950"
+    >
+      <label class="inline-flex items-center cursor-pointer mt-3">
+        <input
+          @change="toggleDark"
+          type="checkbox"
+          v-model="isDark"
+          class="sr-only peer"
+        />
+        <div
+          class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"
+        ></div>
+      </label>
+
       <!-- Jadi fungsi md: disini untuk responsive yang berlaku jika ukuran layar lebih dari 768px -->
       <div class="md:grid md:grid-cols-3 gap-4">
         <div class="col-span-1 md:border-r-4">
           <div class="w-full md:w-10/12 mx-auto mt-12">
-            <h1 class="text-3xl text-center font-bold">MustDo</h1>
-            <p class="text-base text-center">What needs to be done ?</p>
+            <h1
+              class="text-3xl text-center font-bold dark:text-blue-800 text-slate-50"
+            >
+              MustDo
+            </h1>
+            <p class="text-base text-center dark:text-black text-slate-50">
+              What needs to be done ?
+            </p>
 
             <to-do-form @todo-added="addToDo"></to-do-form>
           </div>
@@ -144,7 +171,7 @@ export default {
 
         <div class="col-span-2">
           <p
-            class="text-base text-center font-bold mt-4 mb-2"
+            class="text-base text-center font-bold mt-4 mb-2 dark:text-blue-800 text-slate-50"
             id="list-summary"
             ref="listSummary"
             tabindex="-1"
@@ -157,13 +184,13 @@ export default {
               <form class="w-8/12 mx-auto">
                 <label
                   for="filter"
-                  class="block mb-2 text-base font-medium text-black"
+                  class="block mb-2 text-base font-medium dark:text-gray-950 text-slate-50"
                   >Filter By:</label
                 >
                 <select
                   v-model="filterOption"
                   @change="filterTasks"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  class="border border-blue-950 text-sm rounded-lg block w-full p-2.5 text-slate-50 dark:bg-blue-950 bg-sky-600"
                 >
                   <option value="all" selected>All</option>
                   <option value="pending">Pending</option>
@@ -176,13 +203,13 @@ export default {
               <div class="w-8/12 mx-auto">
                 <label
                   for="sort"
-                  class="block mb-2 text-base font-medium text-black"
+                  class="block mb-2 text-base font-medium dark:text-gray-950 text-slate-50"
                   >Sort by:</label
                 >
                 <select
                   v-model="sortOption"
                   @change="sortTasks"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  class="border border-blue-950 text-sm rounded-lg block w-full p-2.5 text-slate-50 dark:bg-blue-950 bg-sky-600"
                 >
                   <option value="addTime">Time Added</option>
                   <option value="alphabet">Alphabetical</option>
