@@ -4,7 +4,7 @@ export default {
   components: {
     ToDoItemEditForm,
   },
-  props: {
+  props: { // Data yang dibutuhkan
     title: {
       required: true,
       type: String,
@@ -36,7 +36,7 @@ export default {
   },
   data() {
     return {
-      isEditing: false,
+      isEditing: false, // untuk status default edit adalah false
     };
   },
   computed: {
@@ -48,7 +48,7 @@ export default {
     deleteToDo() {
       this.$emit("item-deleted");
     },
-    toggleToItemEditForm() {
+    toggleToItemEditForm() { // Untuk merubah status edit
       // console.log(this.$refs.editButton);
       this.isEditing = true;
     },
@@ -168,6 +168,7 @@ export default {
         </div>
       </div>
     </div>
+    <!-- Untuk data yang telah diedit -->
     <to-do-item-edit-form
       v-else
       :id="id"

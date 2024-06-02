@@ -2,10 +2,12 @@
 export default {
   methods: {
     onSubmit() {
+      // Jika salah satu dari form kosong maka fungsi akan keluar
       if (this.title === "" || this.description === "" || this.place === "" || this.date === "" || this.time === "") {
         return;
       }
 
+      // Mengirimkan event bernama "todo-added"
       this.$emit("todo-added", {
         title: this.title,
         description: this.description,
@@ -14,6 +16,7 @@ export default {
         time: this.time,
       });
 
+      // Data diatur untuk kosong kembali
       this.title = "";
       this.description = "";
       this.place = "";

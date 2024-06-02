@@ -1,9 +1,7 @@
 <script setup>
-// import Sidebar from "./components/Sidebar.vue";
-import ToDo from "./pages/ToDo.vue";
+import ToDo from "./pages/ToDo.vue"; // Pemanggilan file ToDo
 </script>
 
 <template>
-    <!-- <Sidebar /> -->
-    <ToDo />
+    <ToDo /> 
 </template>

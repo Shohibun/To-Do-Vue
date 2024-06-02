@@ -1,6 +1,6 @@
 <script>
 export default {
-  props: {
+  props: { // Data yang nanti diedit
     title: {
       type: String,
       required: true,
@@ -27,7 +27,7 @@ export default {
     },
   },
   data() {
-    return {
+    return { // Mengembalikan data baru yang telah diedit
       newTitle: this.title,
       newDescription: this.description,
       newPlace: this.place,
@@ -36,7 +36,7 @@ export default {
     };
   },
   methods: {
-    onsubmit() {
+    onsubmit() { // Fungsi yang akan dipanggil ketika tombol submit ditekan && mengecek apakah nilai data lama === data baru
       if (this.newTitle && this.newTitle !== this.title) {
         this.$emit("item-edited-title", this.newTitle);
       }
@@ -58,12 +58,14 @@ export default {
     },
   },
   mounted() {
+    // Mengakses referensi input
     const titleInputRef = this.$refs.titleInput;
     const descriptionInputRef = this.$refs.descriptionInput;
     const placeInputRef = this.$refs.placeInput;
     const dateInputRef = this.$refs.dateInput;
     const timeInputRef = this.$refs.timeInput;
 
+    // Untuk memeriksa apakah data yang diinputkan tidak null atau undefined
     if (titleInputRef) {
       titleInputRef.focus()
     } else if (descriptionInputRef) {

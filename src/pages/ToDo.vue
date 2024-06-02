@@ -1,20 +1,20 @@
 <script>
 import ToDoItem from "./ToDoItem.vue";
 import ToDoForm from "./ToDoForm.vue";
-import { nanoid } from "nanoid";
+import { nanoid } from "nanoid"; // Digunakan untuk membuat ID unik
 import { useDark, useToggle } from "@vueuse/core";
 
-const isDark = useDark();
-const toggleDark = useToggle(isDark);
+const isDark = useDark(); // Digunakan untuk darkmode
+const toggleDark = useToggle(isDark); // Digunakan untuk change value darkmode
 
 export default {
-  components: {
+  components: { // Komponen lain yang nantinya akan digunakan && Untuk menggunakan tag HTML khusus seusai dengan nama koponen 
     ToDoItem,
     ToDoForm,
   },
   data() {
     return {
-      ToDoItems: [
+      ToDoItems: [  // Data ToDo yang nantinya akan ditampilikan 
         {
           id: "todo-" + nanoid(),
           title: "Learn Vue",
@@ -56,12 +56,12 @@ export default {
           timeStamp: Date.now(),
         },
       ],
-      filterOption: "all",
-      sortOption: "addTime",
+      filterOption: "all", // Untuk default filter
+      sortOption: "addTime", // Untuk default sort
     };
   },
   methods: {
-    addToDo({ title, description, place, date, time }) {
+    addToDo({ title, description, place, date, time }) { // Menambahkan data pada ToDo
       this.ToDoItems.push({
         id: "todo-" + nanoid(),
         title: title,
@@ -75,39 +75,39 @@ export default {
       this.sortTasks();
       this.filterTasks();
     },
-    deleteToDo(toDoId) {
+    deleteToDo(toDoId) { // Menghapus data pada ToDo
       const itemIndex = this.ToDoItems.findIndex((item) => item.id === toDoId);
       this.ToDoItems.splice(itemIndex, 1);
       this.sortTasks();
       this.filterTasks();
       this.$refs.listSummary.focus();
     },
-    updateDoneStatus(toDoId) {
+    updateDoneStatus(toDoId) { // Mengupdate data pada ToDo (checklist)
       const toDoUpdate = this.ToDoItems.find((item) => item.id === toDoId);
       toDoUpdate.done = !toDoUpdate.done;
       this.filterTasks();
     },
-    editTodoTitle(toDoId, newTitle) {
+    editTodoTitle(toDoId, newTitle) { // Mengedit data pada ToDo title
       const toDoEdit = this.ToDoItems.find((item) => item.id === toDoId);
       toDoEdit.title = newTitle;
     },
-    editTodoDescription(toDoId, newDescription) {
+    editTodoDescription(toDoId, newDescription) { // Mengedit data pada ToDo description
       const toDoEdit = this.ToDoItems.find((item) => item.id === toDoId);
       toDoEdit.description = newDescription;
     },
-    editToDoPlace(toDoId, newPlace) {
+    editToDoPlace(toDoId, newPlace) { // Mengedit data pada ToDo place
       const toDoEdit = this.ToDoItems.find((item) => item.id === toDoId);
       toDoEdit.place = newPlace;
     },
-    editToDoDate(toDoId, newDate) {
+    editToDoDate(toDoId, newDate) { // Mengedit data pada ToDo date
       const toDoEdit = this.ToDoItems.find((item) => item.id === toDoId);
       toDoEdit.date = newDate;
     },
-    editToDoTime(toDoId, newTIme) {
+    editToDoTime(toDoId, newTIme) { // Mengedit data pada ToDo time
       const toDoEdit = this.ToDoItems.find((item) => item.id === toDoId);
       toDoEdit.time = newTIme;
     },
-    sortTasks() {
+    sortTasks() { // fungsi yang digunakan untuk mengurutkan data dengan alfabet || waktu pembuatan || tanggal 
       if (this.sortOption === "alphabet") {
         this.ToDoItems.sort((a, b) => a.title.localeCompare(b.title));
       } else if (this.sortOption === "addTime") {
@@ -119,18 +119,18 @@ export default {
     filterTasks() {
       // Hanya buat pemicu reaktivitasnya saja
     },
-    toggleDark() {
+    toggleDark() { // Fungsi untuk toggle darkmode
       toggleDark();
     },
   },
   computed: {
-    listSummary() {
+    listSummary() { // Fungsi untuk menampilkan summary list || todo list yang telah selesai atau belum
       const numberFinishedItems = this.ToDoItems.filter(
         (item) => item.done
       ).length;
       return `${numberFinishedItems} out of ${this.ToDoItems.length} items completed`;
     },
-    filteredToDoItems() {
+    filteredToDoItems() { // Untuk memfilter data berdasarkan selesai || tidaknya 
       if (this.filterOption === "completed") {
         return this.ToDoItems.filter((item) => item.done);
       } else if (this.filterOption === "pending") {
@@ -139,7 +139,7 @@ export default {
         return this.ToDoItems;
       }
     },
-    sortedAndFilteredToDoItems() {
+    sortedAndFilteredToDoItems() { // Untuk mengurutkan data berdasarkan abjad || waktu pembuatan || tanggal
       let filtered = this.filteredToDoItems;
       if (this.sortOption === "alphabet") {
         console.log("masuk sort abjad");
@@ -187,7 +187,8 @@ export default {
               What needs to be done ?
             </p>
 
-            <to-do-form @todo-added="addToDo"></to-do-form>
+            <!-- Contoh penerapan komponen lain yang dijadikan tag HTML  -->
+            <to-do-form @todo-added="addToDo"></to-do-form> 
           </div>
         </div>
 
@@ -241,6 +242,7 @@ export default {
             </div>
           </div>
 
+          <!-- Pengimplementasian data dan fungsi  -->
           <ul aria-labelledby="list-summary">
             <li v-for="item in sortedAndFilteredToDoItems" :key="item.id">
               <to-do-item
