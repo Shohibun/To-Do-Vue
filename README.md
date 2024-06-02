@@ -8,9 +8,9 @@ This template should help get you started developing with Vue 3 in Vite.
 
 ## Framewrok
 
-Tailwind CSS
-Flowbite Tailwind
-Vue 3
+Tailwind CSS,
+Flowbite Tailwind,
+Vue 3,
 VueUse
 
 ## Recommended IDE Setup
