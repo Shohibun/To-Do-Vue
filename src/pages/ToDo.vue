@@ -23,7 +23,7 @@ export default {
           date: "2024-07-16",
           time: "12:34",
           done: true,
-          timeStamp: Date.now(),
+          timeStamp: Date.now(), // Properti yang digunakan untuk menentukan waktu pembuatan ToDo saat itu
         },
         {
           id: "todo-" + nanoid(),
@@ -61,37 +61,37 @@ export default {
     };
   },
   methods: {
-    addToDo({ title, description, place, date, time }) { // Menambahkan data pada ToDo
-      this.ToDoItems.push({
-        id: "todo-" + nanoid(),
+    addToDo({ title, description, place, date, time }) { // Menambahkan data pada ToDo && Menerima beberapa paramater
+      this.ToDoItems.push({ // Untuk menambahkan data dengan fungsi push()
+        id: "todo-" + nanoid(), // Untuk membuat ID unik, diawali dengan string "todo-"
         title: title,
         description: description,
         place: place,
         date: date,
         time: time,
-        done: false,
+        done: false, // Kenapa default false, karena todo yang baru dibuat pastinya belum dikerjakan karena itu bernilai false
         timeStamp: Date.now(),
       });
-      this.sortTasks();
-      this.filterTasks();
+      this.sortTasks(); // Memanggil funsgi sotrTasks() untuk memastikan todo diurutkan sesuai dengan fungsi sort
+      this.filterTasks(); // Memanggil funsgi filterTasks() untuk memastikan todo difilter sesuai dengan fungsi filter
     },
-    deleteToDo(toDoId) { // Menghapus data pada ToDo
-      const itemIndex = this.ToDoItems.findIndex((item) => item.id === toDoId);
-      this.ToDoItems.splice(itemIndex, 1);
+    deleteToDo(toDoId) { // Menghapus data pada ToDo dengan menggunakan parameter toDoId (menerima parementer toDoId)
+      const itemIndex = this.ToDoItems.findIndex((item) => item.id === toDoId); // Mencari id yang sama dengan toDoId dalam array ToDoItems
+      this.ToDoItems.splice(itemIndex, 1); // Menghapus satu item pada array ToDoItems
       this.sortTasks();
       this.filterTasks();
-      this.$refs.listSummary.focus();
+      this.$refs.listSummary.focus(); // Mengatur kembali listSummary
     },
     updateDoneStatus(toDoId) { // Mengupdate data pada ToDo (checklist)
-      const toDoUpdate = this.ToDoItems.find((item) => item.id === toDoId);
-      toDoUpdate.done = !toDoUpdate.done;
+      const toDoUpdate = this.ToDoItems.find((item) => item.id === toDoId); // Mencari id yang sama dengan toDoId dalam array ToDoItems
+      toDoUpdate.done = !toDoUpdate.done; // Diubah dengan nilai sebaliknya if true -> false, if false -> true
       this.filterTasks();
     },
-    editTodoTitle(toDoId, newTitle) { // Mengedit data pada ToDo title
-      const toDoEdit = this.ToDoItems.find((item) => item.id === toDoId);
-      toDoEdit.title = newTitle;
+    editTodoTitle(toDoId, newTitle) { // Mengedit data pada ToDo berdasarkan parameter id dan title
+      const toDoEdit = this.ToDoItems.find((item) => item.id === toDoId); // Mencari id yang sama dengan toDoId dalam array ToDoItems
+      toDoEdit.title = newTitle; // Mengubah title dengan parameter newTitle
     },
-    editTodoDescription(toDoId, newDescription) { // Mengedit data pada ToDo description
+    editTodoDescription(toDoId, newDescription) { // Mengedit data pada ToDo berdasarkan id dan description
       const toDoEdit = this.ToDoItems.find((item) => item.id === toDoId);
       toDoEdit.description = newDescription;
     },
@@ -103,9 +103,9 @@ export default {
       const toDoEdit = this.ToDoItems.find((item) => item.id === toDoId);
       toDoEdit.date = newDate;
     },
-    editToDoTime(toDoId, newTIme) { // Mengedit data pada ToDo time
+    editToDoTime(toDoId, newTime) { // Mengedit data pada ToDo time
       const toDoEdit = this.ToDoItems.find((item) => item.id === toDoId);
-      toDoEdit.time = newTIme;
+      toDoEdit.time = newTime;
     },
     sortTasks() { // fungsi yang digunakan untuk mengurutkan data dengan alfabet || waktu pembuatan || tanggal 
       if (this.sortOption === "alphabet") {
@@ -119,7 +119,7 @@ export default {
     filterTasks() {
       // Hanya buat pemicu reaktivitasnya saja
     },
-    toggleDark() { // Fungsi untuk toggle darkmode
+    toggleDark() { // Fungsi untuk toggle darkmode || mengubah darkmode
       toggleDark();
     },
   },
@@ -132,25 +132,25 @@ export default {
     },
     filteredToDoItems() { // Untuk memfilter data berdasarkan selesai || tidaknya 
       if (this.filterOption === "completed") {
-        return this.ToDoItems.filter((item) => item.done);
+        return this.ToDoItems.filter((item) => item.done); // Memfilter data yang telah selesai
       } else if (this.filterOption === "pending") {
-        return this.ToDoItems.filter((item) => !item.done);
+        return this.ToDoItems.filter((item) => !item.done); // Memfilter data yang belum selesai
       } else {
-        return this.ToDoItems;
+        return this.ToDoItems; // Tidak ada filter
       }
     },
     sortedAndFilteredToDoItems() { // Untuk mengurutkan data berdasarkan abjad || waktu pembuatan || tanggal
       let filtered = this.filteredToDoItems;
       if (this.sortOption === "alphabet") {
         console.log("masuk sort abjad");
-        return filtered.sort((a, b) => a.title.localeCompare(b.title));
+        return filtered.sort((a, b) => a.title.localeCompare(b.title)); // localeCompare() digunakan untuk mengurutkan data berdasarkan abjad
       } else if (this.sortOption === "addTime") {
         console.log("masuk sort time");
-        return filtered.sort((a, b) => a.timeStamp - b.timeStamp);
+        return filtered.sort((a, b) => a.timeStamp - b.timeStamp); // Mengurutkan data berdasarkan waktu pembuatan
       } else if (this.sortOption === "dueDate") {
-        return filtered.sort((a, b) => new Date(a.date) - new Date(b.date));
+        return filtered.sort((a, b) => new Date(a.date) - new Date(b.date)); // Mengurutkan data berdasarkan tanggal
       } else {
-        return filtered;
+        return filtered; // Jika tidak ada yang diurutkan maka akan mengembalikan data yang sebelumnya
       }
     },
   },
@@ -244,7 +244,10 @@ export default {
 
           <!-- Pengimplementasian data dan fungsi  -->
           <ul aria-labelledby="list-summary">
+            <!-- v-for adalah iterasi melalui daftar item -->
+             <!-- item in sortedAndFilteredToDoItems digunakan untuk mengintegrasi melalui setiap item yang telah difilter dan disort -->
             <li v-for="item in sortedAndFilteredToDoItems" :key="item.id">
+              <!-- Pemanggilan file ToDoItem dengan properti dan event handler-->
               <to-do-item
                 :time="item.time"
                 :date="item.date"

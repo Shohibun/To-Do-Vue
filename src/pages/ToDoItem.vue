@@ -2,7 +2,7 @@
 import ToDoItemEditForm from "./ToDoItemEditForm.vue";
 export default {
   components: {
-    ToDoItemEditForm,
+    ToDoItemEditForm, // Komponen lain yang nantinya akan digunakan && Untuk menggunakan tag HTML khusus seusai dengan nama koponen
   },
   props: { // Data yang dibutuhkan
     title: {
@@ -82,7 +82,7 @@ export default {
       this.focusOnEditButton();
     },
     focusOnEditButton() {
-      this.$nextTick(() => {
+      this.$nextTick(() => { // Untuk menunggu sampai DOM telah diupdate setelah perubahan
         const editButtonRef = this.$refs.editButton;
         editButtonRef.focus();
       });
@@ -93,6 +93,7 @@ export default {
 
 <template>
   <div class="">
+    <!-- hanya akan dirender jika isEditing == false -->
     <div class="pb-5" v-if="!isEditing">
       <div class="grid grid-cols-12 mb-4">
         <div class="col-span-1">
@@ -168,7 +169,8 @@ export default {
         </div>
       </div>
     </div>
-    <!-- Untuk data yang telah diedit -->
+    <!-- Untuk komponen pengeditan data todo dengan properti dan event handler -->
+     <!-- v-else akan dirender jika kondisi v-if tidak terpenuhi -->
     <to-do-item-edit-form
       v-else
       :id="id"

@@ -2,7 +2,7 @@
 export default {
   methods: {
     onSubmit() {
-      // Jika salah satu dari form kosong maka fungsi akan keluar
+      // Jika salah satu dari form kosong maka fungsi onSumbit akan berhenti
       if (this.title === "" || this.description === "" || this.place === "" || this.date === "" || this.time === "") {
         return;
       }

@@ -53,8 +53,8 @@ export default {
         this.$emit("item-edited-time", this.newTime);
       }
     },
-    onCancel() {
-      this.$emit("edit-cancelled");
+    onCancel() { // Untuk mengirimkan event "edit-cancelled"
+      this.$emit("edit-cancelled"); // this.$emit digunakan untuk mengirimkan sebuah event keluar dari komponen
     },
   },
   mounted() {
